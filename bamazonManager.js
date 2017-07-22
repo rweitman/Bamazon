@@ -150,6 +150,10 @@ function start()
 
 function add_product(){
 
+  connection.query("SELECT * FROM departments", function(erase, resulting) 
+    {
+      if (erase) throw erase;
+
 	console.log("-----------------");
 		inquirer.prompt([
       {
@@ -159,8 +163,17 @@ function add_product(){
   		},
   		{
   		name: "command8",
-  		message: "Enter in the department name:",
-  		type: "input",
+  		message: "Select the department name:",
+  		type: "list",
+      choices: function()
+        {
+          var departmentArray = [];
+           for (var i = 0; i < resulting.length; i++) 
+          {
+            departmentArray.push(resulting[i].department_name);
+          };
+          return departmentArray;
+        }
 		},
 		{
 		name: "command9",
@@ -200,7 +213,8 @@ function add_product(){
     		product_name: new_product,
     		department_name: new_department,
     		price: new_price,
-    		stock_quantity: new_quantity
+    		stock_quantity: new_quantity,
+        product_sales: 0.00
     	},
     	function(err,res) {
     		console.log("-----------------");
@@ -212,7 +226,7 @@ function add_product(){
     	})
     	}
 })
-
+});
     }
 
 

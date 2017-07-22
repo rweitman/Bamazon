@@ -61,6 +61,7 @@ function start()
       {
       if (err) throw err;
       var store_stock = resulting[0].stock_quantity;
+      var existing_revenue = resulting[0].product_sales;
       console.log("Store Stock: " + store_stock);
       if (chosen_purchase>store_stock)
       {
@@ -94,29 +95,42 @@ function start()
                 item_processing();
                 break;
 
-              }
+              }})}
+
+
+
                  function item_processing() {
                     var new_quantity = store_stock - chosen_purchase;
                     console.log("Processing Purchase...");
                     console.log("Remaining Stock Quantity: " + new_quantity);
-            
-                    connection.query("UPDATE products SET ? WHERE ?",
+
+
+                        var new_revenue = potential_price + existing_revenue;                       
+
+                  
+                  connection.query("UPDATE products SET ? WHERE ?",
                       [
                       {
-                       stock_quantity: new_quantity
+                       stock_quantity: new_quantity,
+                       product_sales: new_revenue
                        },
                        {
                         item_id: chosen_product
                         }
                           ]
-                        )};
-
-                    console.log("Your total cost was $" + potential_price + ".");
+                        );
+                       console.log("Your total cost was $" + potential_price + ".");
                     console.log("Thank you for shopping with us today!");
                       process.exit(0);
 
 
 
+                };})
+
+                      })}
+
+
+    )}
 
 
 
@@ -125,11 +139,4 @@ function start()
 
 
 
-
-
-
-            })
-        }
-      })
-})})}
 
